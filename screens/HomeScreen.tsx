@@ -1,13 +1,12 @@
-import { Button, Text, View } from "react-native";
+import { Button, StatusBar, Text, View } from "react-native";
+
+import Header from "../components/Header";
 
 const HomeScreen = ({ navigation }: { navigation: any }) => {
   return (
     <View>
-      <Text>HomeScreen</Text>
-      <Button
-        title="Go to Profile"
-        onPress={() => navigation.navigate("Profile")}
-      />
+      <Header />
+      <StatusBar />
     </View>
   );
 };
