@@ -4,7 +4,6 @@ import {
   Image,
   StyleSheet,
   Text,
-  TouchableHighlight,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
@@ -12,6 +11,7 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 import colors from "../constants/Colors";
+import { Layout } from "../constants/Layout";
 
 const Product = () => {
   const [lastTap, setLastTap] = useState(0);
@@ -37,6 +37,10 @@ const Product = () => {
   const handleShareButton = () => {
     console.log("share button clicked");
   };
+
+  // const handleBuyButton = () => {
+  //   console.log("buy now button clicked");
+  // };
 
   return (
     <View style={styles.container}>
@@ -105,11 +109,13 @@ const Product = () => {
         </View>
       </View>
 
-      <TouchableHighlight>
+      {
+        /* <TouchableWithoutFeedback onPress={handleBuyButton}>
         <View style={styles.buyBtn}>
           <Text style={styles.buyBtnText}>Buy Now</Text>
         </View>
-      </TouchableHighlight>
+      </TouchableWithoutFeedback> */
+      }
     </View>
   );
 };
@@ -117,8 +123,10 @@ const Product = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: Layout.product.height,
+    width: Dimensions.get("window").width,
     backgroundColor: colors.background,
-    paddingVertical: 28,
+    paddingTop: 28,
     alignItems: "center",
   },
   product: {
@@ -132,7 +140,7 @@ const styles = StyleSheet.create({
   },
   productDetailsContainer: {
     position: "absolute",
-    bottom: 24,
+    bottom: 5,
   },
   productBrand: {
     display: "flex",
@@ -154,23 +162,11 @@ const styles = StyleSheet.create({
   },
   actionBtnContainer: {
     position: "absolute",
-    bottom: 24,
+    bottom: 5,
     right: 0,
   },
   actionBtn: {
-    paddingVertical: 10,
-  },
-  buyBtn: {
-    backgroundColor: "#3C4242",
-    paddingVertical: 10,
-    width: Dimensions.get("window").width - 50,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  buyBtnText: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "white",
+    paddingTop: 20,
   },
 });
 

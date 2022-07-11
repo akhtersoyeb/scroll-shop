@@ -17,6 +17,7 @@ const Header = () => {
 
 const styles = StyleSheet.create({
   container: {
+    height: 60,
     backgroundColor: colors.background,
     display: "flex",
     flexDirection: "row",
