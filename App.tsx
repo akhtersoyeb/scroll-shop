@@ -1,14 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import Logo from "./assets/svg/s-shop.svg";
 
 import Colors from "./constants/Colors";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style={styles.paragraph}>
-        Open up App.tsx to start working on your app!
-      </Text>
+      <Logo />
       <StatusBar style="auto" />
     </View>
   );
@@ -20,8 +19,5 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     alignItems: "center",
     justifyContent: "center",
-  },
-  paragraph: {
-    color: "white",
   },
 });
