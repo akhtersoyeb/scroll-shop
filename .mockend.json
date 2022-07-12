@@ -1,0 +1,22 @@
+{
+  "Product": {
+    "id": { "regexp": "[a-z]{5,10}" },
+    "photo": {
+      "regexp": "https://picsum\\.photos/seed/[0-9]{5}/1920/1080"
+    },
+    "description": { "string" : {}},
+    "rating": { "int": { "min": 1, "max": 5}},
+    "brand": {
+      "belongsTo": "Brand"
+    }
+  }, 
+  "Brand": {
+    "name": { "loremword" : {}},
+    "photo": {
+      "regexp": "https://picsum\\.photos/seed/[0-9]{5}/1920/1080"
+    },
+    "products": {
+      "hasMany": "Product"
+    }
+  }
+}
