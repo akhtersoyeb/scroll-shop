@@ -34,7 +34,22 @@ export default function App() {
             },
           }}
         />
-        <Stack.Screen name="Orders" component={OrdersScreen} />
+        <Stack.Screen
+          name="Orders"
+          component={OrdersScreen}
+          options={{
+            title: "My Orders",
+            headerTitleAlign: "center",
+            headerStyle: {
+              backgroundColor: Colors.background,
+            },
+            headerTintColor: "white",
+            headerTitleStyle: {
+              fontSize: 16,
+              fontWeight: "500",
+            },
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
