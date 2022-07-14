@@ -5,12 +5,20 @@ import Colors from "./constants/Colors";
 import HomeScreen from "./screens/home/HomeScreen";
 import OrdersScreen from "./screens/orders/OrdersScreen";
 import ProfileScreen from "./screens/profile/ProfileScreen";
+import LoginScreen from "./screens/login/LoginScreen";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name="Home"
           component={HomeScreen}
