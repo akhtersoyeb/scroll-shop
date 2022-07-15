@@ -1,56 +1,45 @@
 import { useRef, useState } from "react";
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 
-import { supabase } from "../../libs/supabase";
 import PhoneInput from "react-native-phone-number-input";
-import { Button, Input } from "react-native-elements";
 
+import { useAuth } from "../../contexts/AuthProvider";
 import { styles } from "./styles";
+import { supabase } from "../../services/supabaseClient";
 
 const LoginScreen = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
   const [waiting, setWaiting] = useState(false);
-
   const phoneInput = useRef(null);
 
-  const getPhoneNumber = () => {
-    Alert.alert(phoneNumber);
-  };
+  const { requestOTPWithPhoneNumber, verifyOTPWithPhoneNumber } = useAuth();
 
-  const signInWithPhone = async () => {
-    if (otp) {
-      verifyOTP();
+  const handleSubmit = async () => {
+    if (phoneNumber && otp) {
+      try {
+        let { session, error } = await supabase.auth.verifyOTP({
+          phone: phoneNumber,
+          token: otp,
+        });
+        if (error) console.log(error);
+      } catch (e) {
+        console.warn(e);
+      }
+    } else if (phoneNumber && !otp) {
+      setWaiting(true);
+      try {
+        let { user, error } = await supabase.auth.signIn({
+          phone: phoneNumber,
+        });
+        if (error) console.log(error);
+      } catch (e) {
+        console.warn(e);
+      }
     } else {
-      getOTP();
+      Alert.alert("Invalid input. Enter them correctly");
     }
   };
-
-  const getOTP = async () => {
-    setWaiting(true);
-    let { user, error } = await supabase.auth.signIn({
-      phone: phoneNumber,
-    });
-    if (error) Alert.alert(error.message);
-  };
-
-  const verifyOTP = async () => {
-    let { session, error } = await supabase.auth.verifyOTP({
-      phone: phoneNumber,
-      token: otp,
-    });
-    if (error) Alert.alert(error.message);
-  };
-
-  // async function signInWithPhone() {
-  //   setLoading(true)
-  //   const { user, error } = await supabase.auth.signIn({
-  //     phone: phone,
-  //   })
-
-  //   if (error) Alert.alert(error.message)
-  //   setLoading(false)
-  // }
 
   return (
     <View style={styles.MainContainer}>
@@ -83,7 +72,7 @@ const LoginScreen = () => {
         />
       )}
 
-      <TouchableOpacity style={styles.button} onPress={() => signInWithPhone()}>
+      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>{waiting ? "Verify" : "Get"} OTP</Text>
       </TouchableOpacity>
     </View>

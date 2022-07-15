@@ -1,64 +1,44 @@
+import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Colors from "./constants/Colors";
 
-import HomeScreen from "./screens/home/HomeScreen";
-import OrdersScreen from "./screens/orders/OrdersScreen";
-import ProfileScreen from "./screens/profile/ProfileScreen";
-import LoginScreen from "./screens/login/LoginScreen";
+import { AuthProvider, useAuth } from "./src/contexts/AuthProvider";
+import { Spinner } from "./src/components/atoms/Spinner";
 
-export default function App() {
-  const Stack = createNativeStackNavigator();
+import { AppNavigator } from "./src/navigators/AppNavigator";
+import { AuthNavigator } from "./src/navigators/AuthNavigator";
+
+/* polyfills */
+/** URL polyfill */
+import "react-native-url-polyfill/auto";
+
+const App = () => {
+  return (
+    <AuthProvider>
+      <Root />
+    </AuthProvider>
+  );
+};
+export default App;
+
+const Root: React.FC = () => {
+  const { currentUser, loading } = useAuth();
+  console.log(`current user: ${currentUser}, loading: ${loading}`);
+
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Profile"
-          component={ProfileScreen}
-          options={{
-            title: "My Profile",
-            headerTitleAlign: "center",
-            headerStyle: {
-              backgroundColor: Colors.background,
-            },
-            headerTintColor: "white",
-            headerTitleStyle: {
-              fontSize: 16,
-              fontWeight: "500",
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Orders"
-          component={OrdersScreen}
-          options={{
-            title: "My Orders",
-            headerTitleAlign: "center",
-            headerStyle: {
-              backgroundColor: Colors.background,
-            },
-            headerTintColor: "white",
-            headerTitleStyle: {
-              fontSize: 16,
-              fontWeight: "500",
-            },
-          }}
-        />
-      </Stack.Navigator>
+      {loading
+        ? <LoadingScreen />
+        : currentUser !== null
+        ? <AppNavigator />
+        : <AuthNavigator />}
     </NavigationContainer>
   );
-}
+};
+
+export const LoadingScreen = () => {
+  return (
+    <View style={{ flex: 1, alignItems: "center" }}>
+      <Spinner />
+    </View>
+  );
+};
